@@ -7,5 +7,5 @@ Album: 1139456
 E-mail: piotrek.szulc@student.uj.edu.pl  
 
 ## Projekt
-Robiony we współpracy z Krystianem Komendą
-Projket będzie dotyczył ml na grze Pac-Man własnego autorstwa
+Robiony we współpracy z Krystianem Komendą  
+Projket będzie dotyczył ml na grze Pac-Man własnego autorstwa  
