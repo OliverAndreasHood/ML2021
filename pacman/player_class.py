@@ -6,10 +6,11 @@ class Player:
     def __init__(self, app, pos):
         self.app = app
         # Stats
-        self.grid_pos = pos
+        self.grid_pos = vec(pos[0], pos[1])
         self.pix_pos = self.get_pix_pos()
         self.score = 0
         self.speed = 2
+        self.lives = 3
 
         # Movement        
         self.direction = vec(1,0) 
@@ -43,8 +44,12 @@ class Player:
         # drawing the grid position rectangle
         #pygame.draw.rect(self.app.screen, RED, (self.grid_pos[0]*self.app.cell_width+T_B_BUFFER//2, self.grid_pos[1]*self.app.cell_height+T_B_BUFFER//2, self.app.cell_width, self.app.cell_height), 1)
 
+        # drawing player lives
+        for x in range(self.lives):
+            pygame.draw.circle(self.app.screen, PLAYER_COLOR, (35 + 20*x, HEIGHT - 15), 7)
+
     def get_pix_pos(self):
-        return vec((self.grid_pos.x*self.app.cell_width)+T_B_BUFFER//2+self.app.cell_width//2, (self.grid_pos.y*self.app.cell_height)+T_B_BUFFER//2+self.app.cell_height//2)
+        return vec((self.grid_pos[0]*self.app.cell_width)+T_B_BUFFER//2+self.app.cell_width//2, (self.grid_pos[1]*self.app.cell_height)+T_B_BUFFER//2+self.app.cell_height//2)
 
 ################ MOVEMENT ################
 
@@ -53,11 +58,11 @@ class Player:
 
     def time_to_move(self):
         if (self.pix_pos.x+T_B_BUFFER//2) % self.app.cell_width == 0:
-            if self.direction == vec(1,0) or self.direction == vec(-1,0):
+            if self.direction == vec(1,0) or self.direction == vec(-1,0) or self.direction == vec(0,0):
                 return True
 
         if (self.pix_pos.y+T_B_BUFFER//2) % self.app.cell_height == 0:
-            if self.direction == vec(0,1) or self.direction == vec(0,-1):
+            if self.direction == vec(0,1) or self.direction == vec(0,-1) or self.direction == vec(0,0):
                 return True
 
     def can_move(self):

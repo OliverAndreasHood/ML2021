@@ -1,4 +1,5 @@
 import pygame, sys
+import copy
 
 from pygame.event import event_name
 from settings import *
@@ -26,7 +27,7 @@ class App:
 
         self.load()
 
-        self.player = Player(self, vec(self.p_pos))
+        self.player = Player(self, copy.copy(self.p_pos))
         self.make_enemies()
 
     def run(self):
@@ -74,7 +75,7 @@ class App:
                     elif char == 'C':
                         self.coins.append(vec(xidx,yidx))
                     elif char == 'P':
-                        self.p_pos = vec(xidx,yidx)
+                        self.p_pos = [xidx,yidx]
                     elif char in ['2','3','4','5']:
                         self.e_pos.append([xidx,yidx])
                     elif char == 'B':
@@ -137,6 +138,10 @@ class App:
         for enemy in self.enemies:
             enemy.update()
 
+        for enemy in self.enemies:
+            if enemy.grid_pos == self.player.grid_pos:
+                self.remove_life()
+
     def playing_draw(self):
         self.screen.fill(BLACK)
         self.screen.blit(self.background, (T_B_BUFFER//2, T_B_BUFFER//2))
@@ -152,7 +157,20 @@ class App:
             enemy.draw()
         pygame.display.update()
 
+    def remove_life(self):
+        self.player.lives -= 1
+        if self.player.lives == 0:
+            self.state = 'game over'
+        else:
+            self.player.grid_pos = self.p_pos
+            self.player.pix_pos = self.player.get_pix_pos()
+            self.player.direction = 0
+
+            
     def draw_coins(self):
         for coin in self.coins:
             pygame.draw.circle(self.screen, GOLD, (int(coin.x*self.cell_width)+self.cell_width//2+T_B_BUFFER//2, int(coin.y*self.cell_height)+self.cell_height//2+T_B_BUFFER//2), 5)
+
+################ GAME OVER FUNCTIONS ################
+
 
