@@ -164,7 +164,7 @@ class App:
         else:
             self.player.grid_pos = self.p_pos
             self.player.pix_pos = self.player.get_pix_pos()
-            self.player.direction = 0
+            self.player.direction = vec(1,0)
 
             
     def draw_coins(self):
